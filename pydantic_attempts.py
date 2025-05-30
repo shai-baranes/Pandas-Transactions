@@ -7,7 +7,7 @@
 # "pydantic[email]>=2.11.5",
 
 
-from pydantic import BaseModel, EmailStr, StrictStr, StrictInt, Field, validator
+from pydantic import BaseModel, EmailStr, StrictStr, StrictInt, Field, field_validator
 
 
 
@@ -90,14 +90,14 @@ class Values(BaseModel):
     humidity: int
     device: str
 
-    @validator("temperature")
+    @field_validator("temperature")
     def validate_temperature(cls, value):
         if not (-10 <= value <= 60):
             raise ValueError("Temperature must be between 0 and 100.")
         return value
 
 
-    @validator("humidity")
+    @field_validator("humidity")
     def validate_humidity(cls, value):
         if not (0 <= value <= 100):
             raise ValueError("Humidity must be between 0 and 100.")
@@ -134,3 +134,4 @@ class DataClassUser:
 shai = DataClassUser(name='Shai', email="user@philips.com", account_id=12345)
 print(shai)
 # DataClassUser(name='Shai', email='user@philips.com', account_id=12345)
+
